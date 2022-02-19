@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+//Unnecessary if openFeign is used, only here for Rest Template http communication
 @Configuration
 public class CustomerConfig {
 

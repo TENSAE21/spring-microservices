@@ -1,12 +1,14 @@
 package com.tensae.customer;
 
+import com.tensae.app.clients.fraud.FraudCheckResponse;
+import com.tensae.app.clients.fraud.FraudClient;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
-public record CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
+//public record CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
  //Notice ^^^                      ^^^^ instead of @Autowired           ^^^^^
 
+public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient) {
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -14,14 +16,21 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
                 .email(request.email())
                 .build();
 
-        //So the customer will have a DB ID
         customerRepository.saveAndFlush(customer);
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                //thanks to eureka http://localhost:8081/api/...  is replaced
-                "http://FRAUD/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,   // return type
-                customer.getId()            // input to the url
-                );
+
+    // REST TEMPLATE IMPLEMENTATION
+        //So the customer will have a DB ID
+
+//        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
+//                //thanks to eureka http://localhost:8081/api/...  is replaced
+//                "http://FRAUD/api/v1/fraud-check/{customerId}",
+//                FraudCheckResponse.class,   // return type
+//                customer.getId()            // input to the url
+//                );
+
+
+    // OpenFeign Implementation
+        FraudCheckResponse fraudCheckResponse = fraudClient.fraudCheck(customer.getId());
 
         if(fraudCheckResponse.isFraudlentCustomer())
         {
