@@ -1,5 +1,5 @@
 package com.tensae.customer;
 
-public record FraudCheckResponse(Boolean isFraudlentCustomer){
+public record FraudCheckResponse(boolean isFraudlentCustomer){
 
 }

@@ -16,3 +16,11 @@ Spring:
           dialect: org.hibernate.dialect.PostgreSQLDialect
           format_sql: true
       show-sql: true
+
+eureka:
+  # very important (services won't be able to talk to each other unless instance is specified- it'll run & register but won't talk)
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

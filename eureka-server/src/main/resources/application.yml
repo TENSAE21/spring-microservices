@@ -1,0 +1,14 @@
+server:
+  port: 8761
+
+Spring:
+  application:
+    name: eureka-server
+
+eureka:
+  # very important (services won't be able to talk to each other unless instance is specified- it'll run & register but won't talk)
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: false
+    register-with-eureka: false

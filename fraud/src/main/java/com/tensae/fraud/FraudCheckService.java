@@ -11,6 +11,7 @@ public class FraudCheckService {
     FraudCheckHistoryRepository fraudCheckHistoryRepository;
 
     public boolean isCustomerFraud(Integer customerId){
+        /* TODO: check if customer is Fraud with some logic */
         fraudCheckHistoryRepository.save(
                 FraudCheckHistory.builder()
                 .customerId(customerId)
