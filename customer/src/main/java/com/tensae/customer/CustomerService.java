@@ -2,13 +2,18 @@ package com.tensae.customer;
 
 import com.tensae.app.clients.fraud.FraudCheckResponse;
 import com.tensae.app.clients.fraud.FraudClient;
+import com.tensae.app.clients.notification.NotificationClient;
+import com.tensae.app.clients.notification.NotificationRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 //public record CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
  //Notice ^^^                      ^^^^ instead of @Autowired           ^^^^^
 
-public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient) {
+public record CustomerService(CustomerRepository customerRepository, FraudClient fraudClient,
+                              NotificationClient notificationClient) {
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -36,6 +41,11 @@ public record CustomerService(CustomerRepository customerRepository, FraudClient
         {
             throw new IllegalStateException("Fraudulent Customer");
         }
+
+        boolean isNotified = notificationClient.notifyCustomer(
+                new NotificationRequest(customer.getFirstName(), customer.getEmail())
+        );
+        log.info("customer notification success: " + isNotified);
 
     }
 }

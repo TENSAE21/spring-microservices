@@ -1,4 +1,4 @@
-package com.tensae.fraud;
+package com.tensae.app.notification;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,9 +7,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients(basePackages = "com.tensae.app.clients")
-public class FraudApplication {
+@EnableFeignClients(basePackages= "com.tensae.app.clients")
+public class NotificationApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FraudApplication.class, args);
+        SpringApplication.run(NotificationApplication.class, args);
     }
 }
